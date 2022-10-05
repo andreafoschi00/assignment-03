@@ -29,8 +29,7 @@ public class Controller implements ActionListener {
 		try {
 			temperature = rnd.nextInt(30);
 			intensity = rnd.nextInt(100);
-			channel.sendMsg(Integer.toString(temperature));
-			channel.sendMsg(Integer.toString(intensity));
+			channel.sendMsg(Integer.toString(intensity) + "," + Integer.toString(temperature));
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
