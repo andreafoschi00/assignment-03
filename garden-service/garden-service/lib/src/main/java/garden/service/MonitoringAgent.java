@@ -16,5 +16,17 @@ public class MonitoringAgent extends Thread {
 		this.logger = logger;
 	}
 	
-	
+	@Override
+	public void run() {
+		while(true) {
+			try {
+				if(channel.isMsgAvailable()) {
+					String msg = channel.receiveMsg();
+					this.logger.log(msg);
+				}
+			} catch(Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+	}
 }
