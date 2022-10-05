@@ -16,11 +16,11 @@ public class Controller implements ActionListener {
 
 	public Controller(String port, GUI view, LogView logger) throws Exception {
 		this.view = view;
-		channel = new SerialCommChannel(port, 9600);
+		channel = new SerialCommChannel(port, 115200);
 		new MonitoringAgent(channel,view,logger).start();
 
 		System.out.println("Waiting arduino for rebootin...");
-		
+
 		System.out.println("Ready");
 	}
 
@@ -28,8 +28,9 @@ public class Controller implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		try {
 			temperature = rnd.nextInt(30);
-			intensity = rnd.nextInt(100);
-			channel.sendMsg(Integer.toString(intensity) + "," + Integer.toString(temperature));
+			intensity = rnd.nextInt(8);
+			System.out.println(temperature + " " + intensity);
+			channel.sendMsg(Integer.toString(temperature) + "," + Integer.toString(intensity));
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}

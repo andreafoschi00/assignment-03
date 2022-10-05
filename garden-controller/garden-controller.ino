@@ -15,19 +15,19 @@ void setup() {
 
   MsgService.init();
 
-  btMsgService = new MsgServiceBT(PIN_BT_TDX, PIN_BT_RDX);
-  btMsgService -> init();
+  /*btMsgService = new MsgServiceBT(PIN_BT_TDX, PIN_BT_RDX);
+  btMsgService -> init();*/
   
   scheduler.init(10);
 
   Task* irrigationTask = new IrrigationManagementTask();
   irrigationTask->init(50);
+  irrigationTask->setActive(true);
 
   Task* lightsTask = new LightsManagementTask((IrrigationManagementTask *)irrigationTask, btMsgService);
   lightsTask->init(50);
+  lightsTask->setActive(true);
 
-  scheduler.addTask(irrigationTask);
-  scheduler.addTask(lightsTask);
 }
 
 void loop() {
