@@ -1,12 +1,21 @@
 package garden.service;
 
-import io.vertx.core.AbstractVerticle;
+import jssc.*;
+import javax.swing.SwingUtilities;
 
 public class Test {
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+	private static GUI view = null;
+	private static LogView logger = null;
+	
+	public static void main(String[] args) throws Exception {
+		
+		SwingUtilities.invokeAndWait(() -> {
+			view = new GUI();
+			logger = new LogView();
+		});
+		
+		Controller contr = new Controller(args[0], view, logger);
+		view.registerController(contr);
 	}
-
 }
