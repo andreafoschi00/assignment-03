@@ -11,7 +11,7 @@ class IrrigationManagementTask: public Task {
     void tick();
     void reset();
 
-    enum State { WAITING, RUNNING, SLEEPING } state;
+    enum State { WAITING, SETUP, RUNNING, SLEEPING } state;
 
     int speed;
 
@@ -27,6 +27,7 @@ class IrrigationManagementTask: public Task {
     ServoMotor* servo;
 
     int position;
+    int servo_tick;
 
     long irrigationTime;
     long tStop;

@@ -25,10 +25,11 @@ void LightsManagementTask::tick(){
 
         int index = content.indexOf(',');
         int length = content.length();
-        String intensity_toString = content.substring(0,index);
-        int intensity = toDigit(intensity_toString[0]);
-        String temperature_toString = content.substring(index, length);
-        int temperature = toDigit(temperature_toString[0]);
+        String temperature_toString = content.substring(0,index);
+        int temperature = map(temperature_toString.toInt(), 0, 30, 1, 5);
+        Serial.println(temperature);
+        String intensity_toString = content.substring(index+1,length);
+        int intensity = intensity_toString.toInt();
 
         if(intensity < 5) {
           this->led1->turnOn();
@@ -39,7 +40,7 @@ void LightsManagementTask::tick(){
           if(intensity < 2) {
             this->irrMngTask->speed = temperature;
             this->irrMngTask->reset();
-            this->irrMngTask->state = IrrigationManagementTask::State::RUNNING;
+            this->irrMngTask->state = IrrigationManagementTask::State::SETUP;
           }
         } else {
           this->led1->turnOff();

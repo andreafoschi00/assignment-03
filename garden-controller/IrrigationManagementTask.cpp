@@ -9,6 +9,7 @@ IrrigationManagementTask::IrrigationManagementTask() {
   this->state = WAITING;
   this->irrigationTime = IRRIGATION_TIME;
   this->speed = 1;
+  this->servo_tick = 1;
   this->position = 0;
   this->servo->on();
 
@@ -25,10 +26,13 @@ void IrrigationManagementTask::tick(){
     case WAITING: {
       break;
     }
+    case SETUP: {
+      servoTimer();
+      break;
+    }
     case RUNNING: {
       servoStart();
       servoStop();
-      servoTimer();
       break;
     }
     case SLEEPING: {
@@ -52,10 +56,9 @@ void IrrigationManagementTask::servoStart(){
 }
 
 void IrrigationManagementTask::goTo0(){
-  if(position > 0 && isServoEnabled){
-    isServoEnabled = false;
+  if(position > 0){
     noInterrupts();
-    position -= SERVO_TICK;
+    position -= servo_tick;
     interrupts();
     servo->setAngle(position);
   } else if(position == 0) {
@@ -65,10 +68,9 @@ void IrrigationManagementTask::goTo0(){
 }
 
 void IrrigationManagementTask::goTo180(){
-  if(position < 180 && isServoEnabled){
-    isServoEnabled = false;
+  if(position < 180){
     noInterrupts();
-    position += SERVO_TICK;
+    position += servo_tick;
     interrupts();
     servo->setAngle(position);
   } else if(position == 180) {
@@ -89,34 +91,33 @@ void IrrigationManagementTask::servoStop(){
 }
 
 void IrrigationManagementTask::servoTimer() {
-  int servoSpeed = 0;
+  Serial.println(this->speed);
   switch(this->speed){
     case 1:
-      servoSpeed = 150;
+      this->servo_tick = 1;
       break;
     case 2:
-      servoSpeed = 120;
+      this->servo_tick = 5;
       break;
     case 3:
-      servoSpeed = 90;
+      this->servo_tick = 10;
       break;
     case 4:
-      servoSpeed = 60;
+      this->servo_tick = 20;
       break;
     case 5:
-      servoSpeed = 30;
+      this->servo_tick = 30;
       break;
   }
 
-  if((millis() - tServo) >= servoSpeed){
     tServo = millis();
-    isServoEnabled = true;
-  }
+    state = RUNNING;
 }
 
 void IrrigationManagementTask::irrigationSleep(){
   if((millis() - tSleep) >= SERVO_SLEEP) {
     this->state = WAITING;
+    Serial.println("Servo is ready.");
   }
 }
 

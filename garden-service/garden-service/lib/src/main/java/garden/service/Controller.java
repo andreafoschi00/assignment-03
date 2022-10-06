@@ -27,7 +27,7 @@ public class Controller implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		try {
-			temperature = rnd.nextInt(30);
+			temperature = rnd.nextInt(31);
 			intensity = rnd.nextInt(8);
 			System.out.println(temperature + " " + intensity);
 			channel.sendMsg(Integer.toString(temperature) + "," + Integer.toString(intensity));

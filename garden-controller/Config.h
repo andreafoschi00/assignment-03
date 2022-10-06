@@ -15,8 +15,8 @@
 #include <Arduino.h>
 
 // Irrigation constants
-#define IRRIGATION_TIME 60000 // --> Y seconds on the presentation file
+#define IRRIGATION_TIME 10000 // --> Y seconds on the presentation file
 #define SERVO_TICK 5
-#define SERVO_SLEEP 6000 // --> X (minutes to seconds) on the presentation file
+#define SERVO_SLEEP 10000 // --> X (minutes to seconds) on the presentation file
 
 #endif
