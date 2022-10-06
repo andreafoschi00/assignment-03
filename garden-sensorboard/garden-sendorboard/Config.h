@@ -1,9 +1,9 @@
 #ifndef __CONFIG__
 #define __CONFIG__
 
-#define PHOTORESISTOR_PIN 5
-#define TEMP_SENSOR_PIN 1
-#define LED_PIN 7
+#define PHOTORESISTOR_PIN 4
+#define TEMP_SENSOR_PIN 5
+#define LED_PIN 6
 
 #define WIFI_SSID "Andrea Foschi"
 #define PASSWORD "Foschi123"
