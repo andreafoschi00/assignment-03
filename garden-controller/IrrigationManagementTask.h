@@ -21,7 +21,7 @@ class IrrigationManagementTask: public Task {
     void goTo180();
     void goTo0();
     void servoStop();
-    void servoTimer();
+    void servoSetup();
     void irrigationSleep();
     
     ServoMotor* servo;

@@ -12,7 +12,6 @@ IrrigationManagementTask::IrrigationManagementTask() {
   this->servo_tick = 1;
   this->position = 0;
   this->servo->on();
-
   isServoInit = false;
   tStop = millis();
   tServo = millis();
@@ -27,7 +26,7 @@ void IrrigationManagementTask::tick(){
       break;
     }
     case SETUP: {
-      servoTimer();
+      servoSetup();
       break;
     }
     case RUNNING: {
@@ -90,23 +89,22 @@ void IrrigationManagementTask::servoStop(){
   }
 }
 
-void IrrigationManagementTask::servoTimer() {
-  Serial.println(this->speed);
+void IrrigationManagementTask::servoSetup() {
   switch(this->speed){
     case 1:
       this->servo_tick = 1;
       break;
     case 2:
-      this->servo_tick = 5;
+      this->servo_tick = 3;
       break;
     case 3:
-      this->servo_tick = 10;
+      this->servo_tick = 5;
       break;
     case 4:
-      this->servo_tick = 20;
+      this->servo_tick = 7;
       break;
     case 5:
-      this->servo_tick = 30;
+      this->servo_tick = 10;
       break;
   }
 

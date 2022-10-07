@@ -27,7 +27,6 @@ void LightsManagementTask::tick(){
         int length = content.length();
         String temperature_toString = content.substring(0,index);
         int temperature = map(temperature_toString.toInt(), 0, 30, 1, 5);
-        Serial.println(temperature);
         String intensity_toString = content.substring(index+1,length);
         int intensity = intensity_toString.toInt();
 
