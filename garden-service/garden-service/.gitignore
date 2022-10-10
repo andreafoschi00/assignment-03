@@ -1,5 +1,17 @@
+bin/
+doc/
+*.log
+*.pdf
+!report.pdf
+.classpath
+.gitattributes
+.DS_Store
+
 # Ignore Gradle project-specific cache directory
 .gradle
 
 # Ignore Gradle build output directory
 build
+
+.settings\org.eclipse.jdt.ui.prefs
+.idea
