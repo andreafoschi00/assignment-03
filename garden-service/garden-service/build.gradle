@@ -26,4 +26,10 @@ dependencies {
 
     // Use JUnit test framework
     testImplementation 'junit:junit:4.12'
+    
+    implementation 'io.vertx:vertx-core:4.2.6'
+    implementation 'io.vertx:vertx-web:4.2.6'
+    implementation 'io.vertx:vertx-web-client:4.2.6'
+    implementation 'io.vertx:vertx-mqtt:4.2.6'
+    implementation 'io.github.java-native:jssc:2.9.2'
 }
