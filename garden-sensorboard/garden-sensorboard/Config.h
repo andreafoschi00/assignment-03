@@ -8,6 +8,6 @@
 #define WIFI_SSID "Andrea Foschi"
 #define PASSWORD "Foschi123"
 
-#define NGROK_URL "https://511d-95-244-50-244.eu.ngrok.io/api/data"
+#define NGROK_URL "https://de5b-137-204-20-123.eu.ngrok.io/api/data"
 
 #endif

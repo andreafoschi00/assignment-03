@@ -1,7 +1,7 @@
 package garden.service;
 
-import io.vertx.core.Vertx;
 import garden.service.http.DataService;
+import io.vertx.core.Vertx;
 
 public class GardenService {
 
@@ -10,5 +10,4 @@ public class GardenService {
         DataService service = new DataService(8080);
         vertx.deployVerticle(service);
 	}
-
 }

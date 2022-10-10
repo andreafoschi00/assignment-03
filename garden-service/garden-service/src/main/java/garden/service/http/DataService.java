@@ -1,5 +1,7 @@
 package garden.service.http;
 
+import java.util.LinkedList;
+
 import garden.service.serial.CommChannel;
 import garden.service.serial.SerialCommChannel;
 import io.vertx.core.AbstractVerticle;
@@ -11,11 +13,8 @@ import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.BodyHandler;
 import jssc.SerialPortException;
 
-
-import java.util.LinkedList;
-
 public class DataService extends AbstractVerticle {
-	
+
 	private static final int MAX_SIZE = 10;
     private final int port;
     private final LinkedList<DataStruct> values;
@@ -25,7 +24,7 @@ public class DataService extends AbstractVerticle {
         values = new LinkedList<>();
         this.port = port;
         try {
-            this.channel = new SerialCommChannel("COM8", 115200);
+            this.channel = new SerialCommChannel("COM7", 115200);
         } catch (SerialPortException e) {
             e.printStackTrace();
         }
@@ -37,6 +36,7 @@ public class DataService extends AbstractVerticle {
         router.route().handler(BodyHandler.create());
         router.post("/api/data").handler(this::handleAddNewData);
         router.get("/api/data").handler(this::handleGetData);
+
         vertx
                 .createHttpServer()
                 .requestHandler(router)
@@ -66,8 +66,8 @@ public class DataService extends AbstractVerticle {
 
             response.setStatusCode(200).end();
 
-            channel.sendMsg("i:" + intensity + "t:" + temperature + "s:" + state);
-            System.out.println("i:" + intensity + "t:" + temperature + "s:" + state);
+            channel.sendMsg(intensity + "," + temperature);
+            System.out.println("i:4" + "t:" + temperature + "s:" + state);
         }
     }
 

@@ -23,7 +23,6 @@ enum { NORMAL,
 
 void setup() {
     // hardware
-    Serial.begin(115200);
     tempSensor = new TempSensorTMP36(TEMP_SENSOR_PIN);
     lightSensor = new LightSensorImpl(PHOTORESISTOR_PIN);
     led = new Led(LED_PIN);
@@ -41,10 +40,10 @@ void loop() {
         switch (state) {
             case NORMAL: {
                 int lightIntensity = lightSensor->getLightIntensity();
-                int temperatureMapped = map(tempSensor->getTemperature(), 0, 30, 1, 5);
-
+                int temperatureMapped = map(tempSensor->getTemperature(), 0, 40, 1, 5);
+                
                 // post lightIntensity, temperatureMapped, state
-                int postCode = 200;
+                int postCode = httpService->post(lightIntensity, temperatureMapped, "auto");
 
                 if (postCode == 200) {
                     Serial.println("ok");

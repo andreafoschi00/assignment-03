@@ -18,11 +18,16 @@ int HttpService::post(int lightIntensity, int temperatureMapped, const char* sta
     http.begin(NGROK_URL);
     http.addHeader("Content-Type", "application/json");
 
+
     jsonPost["intensity"] = lightIntensity;
     jsonPost["temperature"] = temperatureMapped;
     jsonPost["state"] = state;
 
     serializeJson(jsonPost, msg);
+  
+    Serial.println(lightIntensity);
+    Serial.println(temperatureMapped);
+    Serial.println(state);
 
     int retCode = http.POST(msg);
     http.end();
