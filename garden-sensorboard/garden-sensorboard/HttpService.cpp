@@ -24,11 +24,8 @@ int HttpService::post(int lightIntensity, int temperatureMapped, const char* sta
     jsonPost["state"] = state;
 
     serializeJson(jsonPost, msg);
+    Serial.println(msg);
   
-    Serial.println(lightIntensity);
-    Serial.println(temperatureMapped);
-    Serial.println(state);
-
     int retCode = http.POST(msg);
     http.end();
 

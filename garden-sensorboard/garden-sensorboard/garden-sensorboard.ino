@@ -23,6 +23,7 @@ enum { NORMAL,
 
 void setup() {
     // hardware
+    Serial.begin(115200);
     tempSensor = new TempSensorTMP36(TEMP_SENSOR_PIN);
     lightSensor = new LightSensorImpl(PHOTORESISTOR_PIN);
     led = new Led(LED_PIN);

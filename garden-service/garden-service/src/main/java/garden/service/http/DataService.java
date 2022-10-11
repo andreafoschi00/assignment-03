@@ -66,9 +66,11 @@ public class DataService extends AbstractVerticle {
 
             response.setStatusCode(200).end();
 
-            channel.sendMsg(intensity + "," + temperature);
-            System.out.println("i:4" + "t:" + temperature + "s:" + state);
-        }
+            channel.sendMsg(temperature + "," + intensity + "," + state);
+            log("<-sensorboard: " + "t:" + temperature + " i:" + intensity + " s:" + state);
+            log("->controller: " + temperature + "," + intensity + "," + state);
+            log("->dashboard: updated");
+       }
     }
 
     private void handleGetData(RoutingContext routingContext) {

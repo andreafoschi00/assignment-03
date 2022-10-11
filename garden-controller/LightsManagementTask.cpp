@@ -21,16 +21,19 @@ void LightsManagementTask::tick(){
         Msg* msg = MsgService.receiveMsg();
         String content = msg->getContent();
 
-        Serial.println("Content received: " + content);
-
         int index = content.indexOf(',');
+        int secondIndex = content.indexOf(',', index+1);
         int length = content.length();
+
         String temperature_toString = content.substring(0,index);
         int temperature = temperature_toString.toInt();
-        String intensity_toString = content.substring(index+1,length);
+        String intensity_toString = content.substring(index+1,secondIndex);
         int intensity = intensity_toString.toInt();
+        String state = content.substring(secondIndex+1, length);
 
-        if(intensity < 5) {
+        if (state == "alarm") {
+          this->state = ALARM_MODE;
+        } else if(intensity < 5) {
           this->led1->turnOn();
           this->led2->turnOn();
           this->led3->turnOnWithValue(intensity);
@@ -38,7 +41,6 @@ void LightsManagementTask::tick(){
 
           if(intensity < 2) {
             this->irrMngTask->speed = temperature;
-            this->irrMngTask->reset();
             this->irrMngTask->state = IrrigationManagementTask::State::SETUP;
           }
         } else {
@@ -49,11 +51,6 @@ void LightsManagementTask::tick(){
         }
 
         delete msg;
-      } else if(this->irrMngTask->state == IrrigationManagementTask::SLEEPING) {
-          this->led1->turnOff();
-          this->led2->turnOff();
-          this->led3->turnOff();
-          this->led4->turnOff();
       }
 
       if(btService->isMsgAvailable()){

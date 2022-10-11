@@ -7,17 +7,14 @@
 IrrigationManagementTask::IrrigationManagementTask() {
   this->servo = new ServoImpl(PIN_SERVO);
   this->state = WAITING;
-  this->irrigationTime = IRRIGATION_TIME;
   this->speed = 1;
   this->servo_tick = 1;
-  this->position = 0;
   this->servo->on();
-  isServoInit = false;
-  tStop = millis();
-  tServo = millis();
-  attachServoTo180 = true;
-  attachServoTo0 = false;
-  isServoEnabled = false;
+  this->position = 0;
+  this->servo->setAngle(position);
+  delay(15);
+  this->servo->off();
+  this->forward = true;
 }
 
 void IrrigationManagementTask::tick(){
@@ -30,8 +27,7 @@ void IrrigationManagementTask::tick(){
       break;
     }
     case RUNNING: {
-      servoStart();
-      servoStop();
+      moveServo();
       break;
     }
     case SLEEPING: {
@@ -41,51 +37,28 @@ void IrrigationManagementTask::tick(){
   }
 }
 
-void IrrigationManagementTask::servoStart(){
-  if(!isServoInit) {
-    position = 0;
-    isServoInit = true;
-  }
-  
-  if(attachServoTo180){
-    goTo180(); 
+void IrrigationManagementTask::moveServo(){
+  irrigationProgress = millis();
+  if((irrigationProgress - tStart) <= IRRIGATION_TIME) {
+    if(forward) {
+      while(position < 180) {
+        position += servo_tick;
+        servo->setAngle(position);
+        delay(15);
+      }
+      forward = false;
+    } else {
+      while(position > 0) {
+        position -= servo_tick;
+        servo->setAngle(position);
+        delay(15);
+      }
+      forward = true;
+    }
   } else {
-    goTo0();
-  }
-}
-
-void IrrigationManagementTask::goTo0(){
-  if(position > 0){
-    noInterrupts();
-    position -= servo_tick;
-    interrupts();
-    servo->setAngle(position);
-  } else if(position == 0) {
-    attachServoTo180 = true;
-    attachServoTo0 = false;  
-  }
-}
-
-void IrrigationManagementTask::goTo180(){
-  if(position < 180){
-    noInterrupts();
-    position += servo_tick;
-    interrupts();
-    servo->setAngle(position);
-  } else if(position == 180) {
-    attachServoTo180 = false;
-    attachServoTo0 = true;  
-  }
-}
-
-
-
-void IrrigationManagementTask::servoStop(){
-  if((millis() - tStop) >= irrigationTime){
-    this->state = SLEEPING;
+    servo->off();
     tStop = millis();
-    tSleep = millis();
-    Serial.println("Servo is going to sleep...");
+    state = SLEEPING;
   }
 }
 
@@ -107,19 +80,15 @@ void IrrigationManagementTask::servoSetup() {
       this->servo_tick = 10;
       break;
   }
-
-    tServo = millis();
+    servo-> on();
+    forward = true;
+    tStart = millis();
     state = RUNNING;
 }
 
 void IrrigationManagementTask::irrigationSleep(){
-  if((millis() - tSleep) >= SERVO_SLEEP) {
+  sleepProgress = millis();
+  if((sleepProgress - tStop) >= SERVO_SLEEP) {
     this->state = WAITING;
-    Serial.println("Servo is ready.");
   }
-}
-
-void IrrigationManagementTask::reset(){
-  tStop = millis();
-  tServo = millis();
 }

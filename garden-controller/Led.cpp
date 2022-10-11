@@ -34,6 +34,22 @@ void Led::turnOnWithValue(int value) {
      String msgError = "Invalid connection: PWM is not supported on pin: " + pin;
      Serial.println(msgError);
   } else {
-    analogWrite(pin, int(map(value, 0, 4, 51, 255)));
+    switch(value) {
+      case 0:
+        analogWrite(pin, 255);
+      break;
+      case 1:
+        analogWrite(pin, 204);
+      break;
+      case 2:
+        analogWrite(pin, 153);
+      break;
+      case 3:
+        analogWrite(pin, 102);
+      break;
+      case 4:
+        analogWrite(pin, 51);
+      break;
+    }
   }
 }

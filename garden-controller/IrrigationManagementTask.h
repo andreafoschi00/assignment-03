@@ -9,7 +9,6 @@ class IrrigationManagementTask: public Task {
   public:
     IrrigationManagementTask();
     void tick();
-    void reset();
 
     enum State { WAITING, SETUP, RUNNING, SLEEPING } state;
 
@@ -17,10 +16,7 @@ class IrrigationManagementTask: public Task {
 
   private:
 
-    void servoStart();
-    void goTo180();
-    void goTo0();
-    void servoStop();
+    void moveServo();
     void servoSetup();
     void irrigationSleep();
     
@@ -29,15 +25,12 @@ class IrrigationManagementTask: public Task {
     int position;
     int servo_tick;
 
-    long irrigationTime;
-    long tStop;
-    long tServo;
-    long tSleep;
+    unsigned long irrigationProgress;
+    unsigned long sleepProgress;
+    unsigned long tStart;
+    unsigned long tStop;
 
-    bool isServoInit;
-    bool attachServoTo180;
-    bool isServoEnabled;
-    bool attachServoTo0;
+    bool forward;
 };
 
 #endif
