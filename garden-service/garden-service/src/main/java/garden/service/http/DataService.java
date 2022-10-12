@@ -51,6 +51,7 @@ public class DataService extends AbstractVerticle {
         if (res == null) {
             sendError(400, response);
         } else {
+        	System.out.println(res.toString());
             int intensity = res.getInteger("intensity");
             int temperature = res.getInteger("temperature");
             String state = res.getString("state");

@@ -52,7 +52,7 @@ void LightsManagementTask::tick(){
 
         delete msg;
       }
-
+      
       if(btService->isMsgAvailable()){
         Msg* msg = btService->receiveMsg();
         String content = msg->getContent();
@@ -93,7 +93,7 @@ void LightsManagementTask::tick(){
           this->led4->turnOnWithValue(intensity);
          } else if (content.equals("irrigation")) {
            // irrigation
-           // this->irrigationTask->state = PAUSE;
+            this->irrMngTask->state = IrrigationManagementTask::State::SETUP;
          } else if (content.startsWith("s")) {
            // sn - n represents the value of the speed (1-8)
            int newSpeed = toDigit(content[1]);
