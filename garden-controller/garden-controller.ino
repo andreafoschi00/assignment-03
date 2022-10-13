@@ -14,7 +14,7 @@ MsgServiceBT *btMsgService;
 void setup() {
 
   Serial.begin(115200);
-  btMsgService = new MsgServiceBT(PIN_BT_RDX, PIN_BT_TDX);
+  btMsgService = new MsgServiceBT(PIN_BT_TDX, PIN_BT_RDX);
   btMsgService -> init();
   
   scheduler.init(10);

@@ -42,17 +42,24 @@ void loop() {
             case NORMAL: {
                 int lightIntensity = lightSensor->getLightIntensity();
                 int temperatureMapped = map(tempSensor->getTemperature(), 0, 40, 1, 5);
+
+                const char *stateSend = "auto";
+                
+                if(String(httpService->getState()) == "manual") {
+                  stateSend = "manual";
+                }
                 
                 // post lightIntensity, temperatureMapped, state
-                int postCode = httpService->post(lightIntensity, temperatureMapped, "auto");
+                int postCode = httpService->post(lightIntensity, temperatureMapped, stateSend);
 
                 if (postCode == 200) {
                     Serial.println("ok");
                 } else {
                     Serial.println(String("error: ") + postCode);
                 }
+                
+                delay(5000);
 
-                // add check for irrigation system pause
                 if (temperatureMapped == 5) {
                     // ALARM
                     state = ALARM;
@@ -69,7 +76,6 @@ void loop() {
                 break;
             }
         }
-        delay(5000);
     } else {
         Serial.println("WiFi Disconnected... Reconnect.");
         wifiConnector->connect();

@@ -16,7 +16,7 @@ bool MsgServiceBT::sendMsg(Msg msg){
 }
 
 bool MsgServiceBT::isMsgAvailable(){
-  while (channel->available()) {
+  if (channel->available()) {
     char ch = (char) channel->read();
     if (ch == '\n'){
       availableMsg = new Msg(content); 

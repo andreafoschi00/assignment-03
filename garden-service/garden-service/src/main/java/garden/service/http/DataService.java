@@ -15,7 +15,7 @@ import jssc.SerialPortException;
 
 public class DataService extends AbstractVerticle {
 
-	private static final int MAX_SIZE = 10;
+	private static final int MAX_SIZE = 1;
     private final int port;
     private final LinkedList<DataStruct> values;
     private CommChannel channel;
@@ -51,7 +51,6 @@ public class DataService extends AbstractVerticle {
         if (res == null) {
             sendError(400, response);
         } else {
-        	System.out.println(res.toString());
             int intensity = res.getInteger("intensity");
             int temperature = res.getInteger("temperature");
             String state = res.getString("state");

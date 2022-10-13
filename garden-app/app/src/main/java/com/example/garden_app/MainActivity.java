@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
     private final List<Button> buttons = new ArrayList<>();
     private final Timer timer = new Timer();
     private boolean isAutoModeOn = true;
-    private static final String HTTP_URL = "https://4104-137-204-20-123.eu.ngrok.io/api/data";
+    private static final String HTTP_URL = "http://6977-137-204-20-123.eu.ngrok.io/api/data";
 
     @SuppressLint("MissingPermission")
     @Override
@@ -189,6 +189,23 @@ public class MainActivity extends AppCompatActivity {
             state.setText("auto");
 
             btChannel.sendMessage("auto");
+
+            String content = null;
+            TextView intensity_tw = findViewById(R.id.textLed3);
+            Integer intensity = Integer.parseInt(intensity_tw.getText().toString());
+            TextView temperature_tw = findViewById(R.id.textIrrigationSpeed);
+            Integer temperature = Integer.parseInt(temperature_tw.getText().toString());
+            try {
+                // example
+                content = new JSONObject()
+                        .put("intensity", intensity)
+                        .put("temperature", temperature)
+                        .put("state", "auto").toString();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            Http.post(HTTP_URL, Objects.requireNonNull(content).getBytes(), response -> {});
         });
 
         findViewById(R.id.btnLed1).setOnClickListener(listener -> {
@@ -205,7 +222,7 @@ public class MainActivity extends AppCompatActivity {
             // send bluetooth message
             TextView textLed3 = findViewById(R.id.textLed3);
             int currentIntensity = Integer.parseInt(textLed3.getText().toString());
-            if (currentIntensity < 4) {
+            if (currentIntensity < 5) {
                 int newIntensity = currentIntensity + 1;
                 textLed3.setText(String.valueOf(newIntensity));
                 btChannel.sendMessage("3i" + newIntensity);
@@ -227,7 +244,7 @@ public class MainActivity extends AppCompatActivity {
             // send bluetooth message
             TextView textLed4 = findViewById(R.id.textLed4);
             int currentIntensity = Integer.parseInt(textLed4.getText().toString());
-            if (currentIntensity < 4) {
+            if (currentIntensity < 5) {
                 int newIntensity = currentIntensity + 1;
                 textLed4.setText(String.valueOf(newIntensity));
                 btChannel.sendMessage("4i" + newIntensity);
@@ -283,6 +300,24 @@ public class MainActivity extends AppCompatActivity {
 
             // make it invisible once clicked
             listener.setVisibility(View.INVISIBLE);
+
+            String content = null;
+            TextView intensity_tw = findViewById(R.id.textLed3);
+            Integer intensity = Integer.parseInt(intensity_tw.getText().toString());
+            TextView temperature_tw = findViewById(R.id.textIrrigationSpeed);
+            Integer temperature = Integer.parseInt(temperature_tw.getText().toString());
+
+            try {
+                // example
+                content = new JSONObject()
+                        .put("intensity", 0)
+                        .put("temperature", 1)
+                        .put("state", "auto").toString();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            Http.post(HTTP_URL, Objects.requireNonNull(content).getBytes(), response -> {});
         });
     }
 
@@ -315,7 +350,7 @@ public class MainActivity extends AppCompatActivity {
         // !!! Choose the right UUID value
         final UUID uuid = BluetoothUtils.getEmbeddedDeviceDefaultUuid();
 
-//        final UUID uuid = BluetoothUtils.generateUuidFromString(ClientConfig.bluetooth.BT_SERVER_UUID);
+    //    final UUID uuid = BluetoothUtils.generateUuidFromString(ClientConfig.bluetooth.BT_SERVER_UUID);
 
         if (serverDevice != null) {
             new ConnectToBluetoothServerTask(serverDevice, uuid, new ConnectionTask.EventListener() {

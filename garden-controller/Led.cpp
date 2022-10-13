@@ -50,6 +50,9 @@ void Led::turnOnWithValue(int value) {
       case 4:
         analogWrite(pin, 51);
       break;
+      default:
+        analogWrite(pin, 0);
+      break;
     }
   }
 }

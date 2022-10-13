@@ -3,12 +3,12 @@
 #include <ArduinoJson.h>
 
 #include "Config.h"
-#include "HTTPClient.h"
+#include <HTTPClient.h>
 
 DynamicJsonDocument jsonPost(1024);
 char msg[100];
 
-DynamicJsonDocument jsonGet(1024);
+StaticJsonDocument<200> jsonGet;
 
 HttpService::HttpService() {
 }
@@ -42,9 +42,8 @@ const char* HttpService::getState() {
         char payload[100];
         String jsonString = http.getString();
         jsonString.toCharArray(payload, jsonString.length() + 1);
-
         deserializeJson(jsonGet, payload);
-        state = jsonGet["state"];
+        state = jsonGet[0]["state"];
     } else {
         Serial.print("Error code: ");
         Serial.println(code);

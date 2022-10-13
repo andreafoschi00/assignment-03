@@ -1,7 +1,7 @@
 #ifndef __HTTP_SERVICE__
 #define __HTTP_SERVICE__
 
-#include "HTTPClient.h"
+#include <HTTPClient.h>
 #include "WifiConnector.h"
 
 class HttpService {

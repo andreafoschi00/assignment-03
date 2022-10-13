@@ -21,6 +21,7 @@ void LightsManagementTask::tick(){
         Msg* msg = MsgService.receiveMsg();
         String content = msg->getContent();
 
+
         int index = content.indexOf(',');
         int secondIndex = content.indexOf(',', index+1);
         int length = content.length();
@@ -57,6 +58,8 @@ void LightsManagementTask::tick(){
         Msg* msg = btService->receiveMsg();
         String content = msg->getContent();
 
+        Serial.println(content);
+
         if(content.equals("manual")) {
           this->state = MANUAL_MODE;
         }
@@ -70,6 +73,8 @@ void LightsManagementTask::tick(){
       if (btService->isMsgAvailable()) {
         Msg* msg = btService->receiveMsg();
         String content = msg->getContent();
+
+        Serial.println(content);
 
         if (content.equals("auto")) {
           this->state = AUTO_MODE;
