@@ -1,10 +1,9 @@
 #include "TempSensorTMP36.h"
 #include "Arduino.h"
 
-#define VCC ((float)3.3)
+#define VCC ((float)3.3) // ESP use 3.3 Volt
 
-TempSensorTMP36::TempSensorTMP36(int p) : pin(p){
-}
+TempSensorTMP36::TempSensorTMP36(int p) : pin(p){ }
 
 float TempSensorTMP36::getTemperature(){
   int value = analogRead(pin);

@@ -5,6 +5,8 @@
 #include "Task.h"
 #include "Utils.h"
 
+// This task manage the irrigation system, controlled by the servo motor.
+
 class IrrigationManagementTask: public Task {
   public:
     IrrigationManagementTask();

@@ -6,6 +6,8 @@
 #include "Task.h"
 #include "IrrigationManagementTask.h"
 
+// This task manage the ON/OFF of LEDs 1,2 and luminosity of LEDs 3,4
+
 class LightsManagementTask: public Task {
   public:
     LightsManagementTask(IrrigationManagementTask* task, MsgServiceBT* btService);

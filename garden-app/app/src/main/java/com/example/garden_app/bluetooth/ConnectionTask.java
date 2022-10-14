@@ -2,6 +2,9 @@ package com.example.garden_app.bluetooth;
 
 import android.os.AsyncTask;
 
+/**
+ * This Task manage the BT connection system
+ */
 public abstract class ConnectionTask extends AsyncTask<Void, Void, Integer> {
     static final int CONNECTION_DONE = 1;
     static final int CONNECTION_CANCELED = 2;

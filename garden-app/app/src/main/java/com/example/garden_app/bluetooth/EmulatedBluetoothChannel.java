@@ -23,7 +23,7 @@ public final class EmulatedBluetoothChannel extends BluetoothChannel {
     }
 
     /**
-     *
+     * Sockets
      */
     private class TcpWorker implements ExtendedRunnable {
         private final Socket socket;

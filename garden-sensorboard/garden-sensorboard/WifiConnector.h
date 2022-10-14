@@ -3,6 +3,8 @@
 
 #include "Arduino.h"
 
+// This class manages the WiFi connection of the ESP
+
 class WifiConnector {
    public:
     WifiConnector(const char* ssid, const char* password);

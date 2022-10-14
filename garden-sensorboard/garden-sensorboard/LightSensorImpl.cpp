@@ -8,5 +8,5 @@ LightSensorImpl::LightSensorImpl(int pin) {
 
 int LightSensorImpl::getLightIntensity() {
     int value = analogRead(pin);
-    return map(value, 0, 4095, 0, 7);
+    return map(value, 0, 4095, 0, 7);  // range: 0..7, photoresistor accepts values 0...4095
 }

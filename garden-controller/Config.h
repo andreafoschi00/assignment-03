@@ -12,11 +12,8 @@
 #define PIN_BT_RDX 12
 #define PIN_BT_TDX 13
 
-#include <Arduino.h>
-
 // Irrigation constants
 #define IRRIGATION_TIME 10000 // --> Y seconds on the presentation file
-#define SERVO_TICK 5
-#define SERVO_SLEEP 10000 // --> X (minutes to seconds) on the presentation file
+#define SERVO_SLEEP 10000     // --> X (minutes to seconds) on the presentation file
 
 #endif

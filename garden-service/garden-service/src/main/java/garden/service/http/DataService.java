@@ -15,7 +15,9 @@ import jssc.SerialPortException;
 
 public class DataService extends AbstractVerticle {
 
-	private static final int MAX_SIZE = 1;
+	private static final int MAX_SIZE = 1; // Just use one object --> it has the updated values.
+	private static final String SERIAL_PORT = ""; // --> ARDUINO SERIAL PORT GOES HERE
+	private static final int SERIAL_BAUD_RATE = 0; // --> ARDUINO BAUD RATE GOES HERE
     private final int port;
     private final LinkedList<DataStruct> values;
     private CommChannel channel;
@@ -24,7 +26,7 @@ public class DataService extends AbstractVerticle {
         values = new LinkedList<>();
         this.port = port;
         try {
-            this.channel = new SerialCommChannel("COM7", 115200);
+            this.channel = new SerialCommChannel(SERIAL_PORT, SERIAL_BAUD_RATE);
         } catch (SerialPortException e) {
             e.printStackTrace();
         }
@@ -34,6 +36,7 @@ public class DataService extends AbstractVerticle {
     public void start() {
         Router router = Router.router(vertx);
         router.route().handler(BodyHandler.create());
+        // endpoints
         router.post("/api/data").handler(this::handleAddNewData);
         router.get("/api/data").handler(this::handleGetData);
 
@@ -44,7 +47,8 @@ public class DataService extends AbstractVerticle {
 
         log("Service ready.");
     }
-
+    
+    // POST /api/data
     private void handleAddNewData(RoutingContext routingContext) {
         HttpServerResponse response = routingContext.response();
         JsonObject res = routingContext.getBodyAsJson();
@@ -55,7 +59,8 @@ public class DataService extends AbstractVerticle {
             int temperature = res.getInteger("temperature");
             String state = res.getString("state");
 
-            if (temperature == 5) {
+            // All the components must know the system passed in ALARM mode
+            if (temperature == 5) { 
                 state = "alarm";
             }
 
@@ -66,13 +71,15 @@ public class DataService extends AbstractVerticle {
 
             response.setStatusCode(200).end();
 
-            channel.sendMsg(temperature + "," + intensity + "," + state);
+            channel.sendMsg(temperature + "," + intensity + "," + state); // --> to the Arduino
             log("<-sensorboard: " + "t:" + temperature + " i:" + intensity + " s:" + state);
             log("->controller: " + temperature + "," + intensity + "," + state);
             log("->dashboard: updated");
+            log("->app: updated");
        }
     }
 
+    // GET /api/data
     private void handleGetData(RoutingContext routingContext) {
         JsonArray arr = new JsonArray();
         for (DataStruct p : values) {

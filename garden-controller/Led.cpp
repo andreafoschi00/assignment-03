@@ -9,6 +9,7 @@ Led::Led(int pin){
   pinMode(pin, OUTPUT);
 }
 
+// LED1 and LED2 functions (digital)
 void Led::turnOn(){
   digitalWrite(pin, HIGH);
 }
@@ -21,6 +22,7 @@ bool Led::isActive(){
   return digitalRead(pin);
 }
 
+//LED 3 and LED 4 funcion (analog)
 void Led::turnOnWithValue(int value) {
   bool hasPWM = false;
   for(int actual_pin: pwmPins) {
@@ -36,22 +38,22 @@ void Led::turnOnWithValue(int value) {
   } else {
     switch(value) {
       case 0:
-        analogWrite(pin, 255);
+        analogWrite(pin, 255); // Intensity 0 -> max luminosity
       break;
       case 1:
-        analogWrite(pin, 204);
+        analogWrite(pin, 204); // Intensity 1 -> high luminosity
       break;
       case 2:
-        analogWrite(pin, 153);
+        analogWrite(pin, 153); // Intensity 2 -> medium-high luminosity
       break;
       case 3:
-        analogWrite(pin, 102);
+        analogWrite(pin, 102); // Intensity 3 -> medium-low luminosity
       break;
       case 4:
-        analogWrite(pin, 51);
+        analogWrite(pin, 51); // Intensity 4 -> low luminosity
       break;
       default:
-        analogWrite(pin, 0);
+        analogWrite(pin, 0); // Intensity 5,6,7 -> OFF
       break;
     }
   }

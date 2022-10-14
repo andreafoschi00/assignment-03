@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
     private final List<Button> buttons = new ArrayList<>();
     private final Timer timer = new Timer();
     private boolean isAutoModeOn = true;
-    private static final String HTTP_URL = "http://6977-137-204-20-123.eu.ngrok.io/api/data";
+    private static final String HTTP_URL = ""; // --> Ngrok URL goes here
 
     @SuppressLint("MissingPermission")
     @Override
@@ -87,8 +87,7 @@ public class MainActivity extends AppCompatActivity {
         this.connectToBTServer();
 
         /***********************/
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
-                .permitAll().build();
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         /***********************/
 
@@ -137,6 +136,7 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
+        // GET requests every 3 seconds (and updates GUI)
         timer.schedule(getApiDataTask, 0, 3000);
     }
 
@@ -173,6 +173,7 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
+            // POST: garden state changes -> manual
             Http.post(HTTP_URL, Objects.requireNonNull(content).getBytes(), response -> {});
         });
 
@@ -205,6 +206,7 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
+            // POST: garden state changes -> auto
             Http.post(HTTP_URL, Objects.requireNonNull(content).getBytes(), response -> {});
         });
 
@@ -310,13 +312,14 @@ public class MainActivity extends AppCompatActivity {
             try {
                 // example
                 content = new JSONObject()
-                        .put("intensity", 0)
-                        .put("temperature", 1)
+                        .put("intensity", intensity)
+                        .put("temperature", temperature)
                         .put("state", "auto").toString();
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
+            // POST: garden state changes -> auto, alarm mode disabled
             Http.post(HTTP_URL, Objects.requireNonNull(content).getBytes(), response -> {});
         });
     }

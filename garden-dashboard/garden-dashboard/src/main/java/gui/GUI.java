@@ -8,7 +8,7 @@ import javax.swing.SwingUtilities;
 public class GUI extends JFrame {
 
 	/**
-	 *
+	 * UID
 	 */
 	private static final long serialVersionUID = 2310054620902228975L;
 	private final JLabel intensity;

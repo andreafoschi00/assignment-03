@@ -3,6 +3,8 @@
 
 #include "Arduino.h"
 
+// Defining macros of the garden state
+
 #define AUTO 1
 #define MANUAL 2
 #define ALARM 3

@@ -3,6 +3,8 @@
 
 #include "Light.h"
 
+// Esp green LED --> ON/OFF, digital
+
 class Led : public Light {
    public:
     Led(int pin);

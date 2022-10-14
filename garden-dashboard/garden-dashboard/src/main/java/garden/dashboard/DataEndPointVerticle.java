@@ -26,6 +26,7 @@ public class DataEndPointVerticle extends AbstractVerticle {
 							 		.get(port, host, "/api/data")
 							 		.as(BodyCodec.jsonArray());
 
+		// Every 3 seconds GUI updates automatically
 		vertx.setPeriodic(3000, handler->fecthData());
 	}
 
